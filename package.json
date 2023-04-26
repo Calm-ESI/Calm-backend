@@ -1,0 +1,26 @@
+{
+  "name": "calm-backend",
+  "version": "1.0.0",
+  "description": "Backend source code for the Calm platform project",
+  "main": "server.js",
+  "keywords": [
+    "ESI",
+    "Architecture",
+    "8086",
+    "Backend",
+    "Calm",
+    "CPU"
+  ],
+  "author": "Calm Organization",
+  "dependencies": {
+    "@prisma/client": "^4.13.0",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.13.0"
+  }
+}

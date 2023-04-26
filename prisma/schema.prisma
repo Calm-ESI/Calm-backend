@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model calm_users {
+  id       Int     @id(map: "calm_users_pk") @default(autoincrement())
+  email    String  @unique @db.VarChar(255)
+  password String  @db.VarChar(255)
+  score    Int     @default(0)
+  codes    codes[]
+}
+
+model codes {
+  id         Int        @id(map: "codes_pk") @default(autoincrement())
+  user_id    Int
+  content    String
+  calm_users calm_users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "codes_fk0")
+}
+
+model addressing_modes {
+  name        String @id(map: "addressing_modes_pk") @db.VarChar(255)
+  description String
+}
+
+model components {
+  name        String @id(map: "components_pk") @db.VarChar(255)
+  description String
+  category    String
+}
+
+model examples {
+  name        String  @id(map: "exmples_pk") @db.VarChar(255)
+  description String?
+  code        String
+}
