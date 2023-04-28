@@ -32,7 +32,7 @@ module.exports.get_addressing_mode = async (req, res) =>{
             }
         })
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Addressing mode successfully fetched",
             data: addressingMode,
@@ -60,7 +60,7 @@ module.exports.add_addressing_mode = async (req, res) => {
             }
         })
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Addressing mode successfully added",
             data: addressingMode,
@@ -98,7 +98,7 @@ module.exports.edit_addressing_mode = async (req, res) => {
             }
         })
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Addressing mode successfully updated",
             data: newAddressingMode,
@@ -125,7 +125,7 @@ module.exports.delete_addressing_mode = async (req, res) => {
             }
         })
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Addressing mode successfully delted",
             data: addressingMode,

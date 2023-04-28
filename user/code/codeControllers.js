@@ -42,7 +42,7 @@ module.exports.get_code = async (req, res) =>{
             if(code.user_id !== user_id) throw new Error("Unauthorized access");
         }
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Code successfully fetched",
             data: code,
@@ -72,7 +72,7 @@ module.exports.add_code = async (req, res) => {
             }
         })
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Code successfully added",
             data: code,
@@ -109,7 +109,7 @@ module.exports.edit_code = async (req, res) => {
             }
         })
 
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Code successfully updated",
             data: newcode,
@@ -145,7 +145,7 @@ module.exports.delete_code = async (req, res) => {
             }
         })
         
-        res.status(301).json({
+        res.status(200).json({
             success: true,
             message: "Code successfully deleted",
             data: code,

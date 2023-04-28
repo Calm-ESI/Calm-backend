@@ -1,5 +1,12 @@
 /** Configure Environment variables */
 require('dotenv').config();
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
+/** Routes */
+const authRoutes = require('./auth/authRoutes');
+const documentationRoutes = require('./documentation/documentationRoutes');
+const userRoutes = require('./user/userRoutes');
 
 /** Initialize Express */
 const express = require('express');
@@ -8,13 +15,14 @@ const app = express();
 /** Setup midleware */
 app.use(express.json());
 
-const cookieParser = require('cookie-parser');
+let corsOptions = {
+    origin: '*',
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
-/** Routes */
-const authRoutes = require('./auth/authRoutes');
-const documentationRoutes = require('./documentation/documentationRoutes');
-const userRoutes = require('./user/userRoutes');
+
 
 app.get('/', (req, res) => {
     res.send("Welcome to the Calm platform!");
