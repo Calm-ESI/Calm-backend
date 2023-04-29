@@ -31,7 +31,7 @@ CREATE TABLE "components" (
     "name" VARCHAR(255) NOT NULL,
     "description" TEXT NOT NULL,
     "category" TEXT NOT NULL,
-    "imagepath" VARCHAR(100),
+    "imagepath" VARCHAR(100) NOT NULL,
 
     CONSTRAINT "components_pk" PRIMARY KEY ("name")
 );

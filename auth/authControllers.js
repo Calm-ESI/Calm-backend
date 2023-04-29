@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const prisma = require('../prisma/prismaClient');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 //Global constants
 const jwt_maxAge = 1000 * 60 * 60 * 24; //1 day
@@ -115,4 +116,24 @@ module.exports.post_logout = (req, res) => {
 
     //redirect to the home page
     res.redirect('/');
+}
+
+module.exports.get_test = async(req, res)=>{
+    try {
+        fs.readFile('./prisma/schema.prisma', 'utf-8', (e, data) => {
+            if (e) throw e;
+            console.log(data);
+            res.status(200).json({
+                success: true,
+                message: "file was successfully read",
+                data: data,
+            })
+        });
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: error.message,
+            data: {},
+        })
+    }
 }
