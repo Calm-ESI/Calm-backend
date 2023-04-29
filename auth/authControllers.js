@@ -6,15 +6,18 @@ const bcrypt = require('bcrypt');
 //Global constants
 const jwt_maxAge = 1000 * 60 * 60 * 24; //1 day
 
-//SignUp controlllers
-module.exports.get_signup = async (req, res) => {
+//register controlllers
+module.exports.get_register = async (req, res) => {
     res.send("This is the Calm sign in page");
 }
 
-module.exports.post_signup = async (req, res) => {
+module.exports.post_register = async (req, res) => {
     try {
         //get data from the request body
         const {email, password} = req.body;
+        if(!/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)){
+            throw new Error('Invalid email format')
+        }
 
         //checking if the email and password are given
         if(!email) throw new Error('No email provided');
@@ -36,25 +39,20 @@ module.exports.post_signup = async (req, res) => {
         res.cookie('jwt', token, { httpOnly: true, jwt_maxAge});
 
         //Send the response
-        res.status(300).json({
+        res.status(200).json({
             success: true,
-            message: 'signup successful',
+            message: 'register successful',
             data: user,
         });
 
     } catch (error) {
         //send Error message
-        let message = error.message.split('\n'); //This didn't work for
-            //some cases => necessesity to check all possible cases
+        if(error.code === "P2002") error.message = "Email already registered";
 
-        // if( error instanceof Prisma.PrismaClientValidationError){
-        //     message = error.message.split('\n');
-        // }
-        //add an "if" for the case of "unique" constraint violation
 
         res.status(400).json({
             success: false,
-            message,
+            message: error.message,
             data: {},
         })
     }
@@ -87,15 +85,14 @@ module.exports.post_login = async (req, res) => {
         //user found, now checking the password
         //** Check if there's a way to declare static methods on the user schmea in prisma */
         const auth = await bcrypt.compare(password, user.password);
-        
         if(!auth) throw new Error('Incorrect password');
-
+        
         //user successfully authenticated, now create the jwt token
         const token = jwt.sign({username: user.username, email}, process.env.JWT_SECRET, {expiresIn: jwt_maxAge});
         res.cookie('jwt', token, { httpOnly: true, jwt_maxAge});
 
         //send the response
-        res.status(300).json({
+        res.status(200).json({
             success: true,
             message: 'login successful',
             data: user
@@ -104,7 +101,7 @@ module.exports.post_login = async (req, res) => {
     } catch (error) {
         
         //send Error message
-        res.status(400).json({
+        res.status(404).json({
             success: false,
             message: error.message,
             data: {},

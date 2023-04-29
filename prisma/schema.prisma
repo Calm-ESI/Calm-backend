@@ -23,14 +23,16 @@ model codes {
 }
 
 model addressing_modes {
-  name        String @id(map: "addressing_modes_pk") @db.VarChar(255)
+  name        String  @id(map: "addressing_modes_pk") @db.VarChar(255)
   description String
+  imagepath   String? @db.VarChar(100)
 }
 
 model components {
-  name        String @id(map: "components_pk") @db.VarChar(255)
+  name        String  @id(map: "components_pk") @db.VarChar(255)
   description String
   category    String
+  imagepath   String? @db.VarChar(100)
 }
 
 model examples {

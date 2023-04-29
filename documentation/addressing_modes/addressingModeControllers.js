@@ -49,14 +49,15 @@ module.exports.get_addressing_mode = async (req, res) =>{
 
 module.exports.add_addressing_mode = async (req, res) => {
     try {
-        const {name, description} = req.body;
+        const {name, description, imagepath} = req.body;
 
         if(!name) throw new Error("No name provided");
         if(!description) throw new Error("No description provided");
+        if(!imagepath) throw new Error("No image path provided");
 
         const addressingMode = await prisma.addressing_modes.create({
             data: {
-                name, description,
+                name, description, imagepath
             }
         })
 

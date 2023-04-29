@@ -11,6 +11,9 @@
     "Calm",
     "CPU"
   ],
+  "scripts": {
+    "start": "react-scripts start"
+  },
   "author": "Calm Organization",
   "dependencies": {
     "@prisma/client": "^4.13.0",
