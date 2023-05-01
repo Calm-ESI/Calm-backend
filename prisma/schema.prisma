@@ -17,6 +17,7 @@ model calm_users {
 
 model codes {
   id         Int        @id(map: "codes_pk") @default(autoincrement())
+  name       String     @unique @db.VarChar(50)
   user_id    Int
   content    String
   calm_users calm_users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "codes_fk0")
@@ -25,14 +26,15 @@ model codes {
 model addressing_modes {
   name        String  @id(map: "addressing_modes_pk") @db.VarChar(255)
   description String
-  imagepath   String? @db.VarChar(100)
+  imagepath   String @db.VarChar(100)
 }
 
 model components {
   name        String  @id(map: "components_pk") @db.VarChar(255)
   description String
   category    String
-  imagepath   String? @db.VarChar(100)
+  imagepath   String @db.VarChar(100)
+  imageHeight Int?
 }
 
 model examples {

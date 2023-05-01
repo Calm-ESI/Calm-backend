@@ -49,15 +49,16 @@ module.exports.get_component = async (req, res) =>{
 
 module.exports.add_component = async (req, res) => {
     try {
-        const {name, category, description} = req.body;
+        const {name, category, description, imagepath, imageHeight} = req.body;
 
         if(!name) throw new Error("No name provided");
         if(!description) throw new Error("No description provided");
         if(!category) throw new Error("No category provided");
+        if(!imagepath) throw new Error("No image path provided");
 
         const component = await prisma.components.create({
             data: {
-                name, description, category,
+                name, description, category, imagepath, imageHeight
             }
         })
 
@@ -79,7 +80,7 @@ module.exports.add_component = async (req, res) => {
 module.exports.edit_component = async (req, res) => {
     try{
         const name = req.query.name;
-        const {description, category} = req.body;
+        const {description, category, imagepath, imageHeight} = req.body;
 
         if(!name) throw new Error("No name provided");
 
@@ -97,6 +98,8 @@ module.exports.edit_component = async (req, res) => {
                 name: name || component.name,
                 description: description || component.description, 
                 category: category || component.category,
+                imagepath: imagepath || component.imagepath,
+                imageHeight: imageHeight || component.imageheight,
             }
         })
 
@@ -129,7 +132,7 @@ module.exports.delete_component = async (req, res) => {
 
         res.status(301).json({
             success: true,
-            message: "Component successfully delted",
+            message: "Component successfully deleted",
             data: component,
         })
     } catch (error) {

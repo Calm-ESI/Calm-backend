@@ -79,7 +79,7 @@ module.exports.add_addressing_mode = async (req, res) => {
 module.exports.edit_addressing_mode = async (req, res) => {
     try{
         const name = req.query.name;
-        const description = req.body.description;
+        const {description, imagepath} = req.body;
 
         if(!name) throw new Error("No name provided");
 
@@ -96,6 +96,7 @@ module.exports.edit_addressing_mode = async (req, res) => {
             data: {
                 name: name || addressingMode.name,
                 description: description || addressingMode.description,
+                imagepath: imagepath || addressingMode.imagepath,
             }
         })
 
@@ -128,7 +129,7 @@ module.exports.delete_addressing_mode = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "Addressing mode successfully delted",
+            message: "Addressing mode successfully deleted",
             data: addressingMode,
         })
     } catch (error) {

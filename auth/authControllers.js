@@ -16,14 +16,16 @@ module.exports.post_register = async (req, res) => {
     try {
         //get data from the request body
         const {email, password} = req.body;
-        if(!/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)){
-            throw new Error('Invalid email format')
-        }
-
+        
         //checking if the email and password are given
         if(!email) throw new Error('No email provided');
         if(!password) throw new Error('No password provided');
-
+        
+        //checking the format of the email
+        if(!/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)){
+            throw new Error('Invalid email format')
+        }
+        
         //encrypt the password before creating the account using bcrypt
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -118,17 +120,205 @@ module.exports.post_logout = (req, res) => {
     res.redirect('/');
 }
 
+/*
 module.exports.get_test = async(req, res)=>{
     try {
-        fs.readFile('./prisma/schema.prisma', 'utf-8', (e, data) => {
-            if (e) throw e;
-            console.log(data);
-            res.status(200).json({
-                success: true,
-                message: "file was successfully read",
-                data: data,
-            })
-        });
+        // const data = [
+        //     {
+        //       name: 'Immediate',
+        //       description: 'description for addressing 1',
+        //       imagepath: "/assets/images/calm/addressing-modes/immediate.png"
+        //     },
+        //     {
+        //       name: 'Direct',
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/direct.png"
+        //     },
+        //     {
+        //       name: 'Indirect',
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/indirect.png"
+        //     },
+        //     {
+        //       name: 'Based',
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/based.png"
+        //     },
+        //     {
+        //       name: 'Indexed',
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/pointing.png"
+        //     },
+        //     {
+        //       name: 'Based Indexed',
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/basedIndexed.png"
+        //     },
+        //     {
+        //       name: "Shift on 8 bits",
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/right-arrow.png" 
+        //     },
+        //     {
+        //       name: "Shift on 16 bits",
+        //       description: 'description for addressing 2',
+        //       imagepath: "/assets/images/calm/addressing-modes/double-right-arrow.png" 
+        //     }
+        // ];
+        // const results = await prisma.addressing_modes.createMany({
+        //     data,
+        // })
+
+        // const data = [
+        // {   
+        //     name: "Immediate",
+        //     description:"Getting the information " +
+        //         "immediately from the instruction code after decoding it, so the operand  would be in the second part of " +
+        //         "the instruction (depending if where in the general format or the reduced format) to be used in the " +
+        //         "execution with no memory access and that's why it's called immediate."
+        // },
+        // {   
+        //     name: "Direct",
+        //     description:"Getting the information directly from it's memory address that is " +
+        //         "provided by the instruction, so here we'll have to do one memory access to " +
+        //         "retrieve the information."
+        // },
+        // {   
+        //     name: "Indirect",
+        //     description:"Getting the information indirectly from the address that is stored in the address provided by the " +
+        //         "instruction, at first it may sound a bit confusing but you'll see how much is this mode important when " +
+        //         "you'll deal with pointers, no more spoils because you'll learn them in data structures, but I'll only want " +
+        //         "you to remember that it's an memory address “pointing” the memory address that contains the information " +
+        //         "that we want and so we'll have to do 2 memory accesses to get to it, the first one is to get the physical " +
+        //         "address of the information and the second one is to retrieve the data."
+        // },
+        // {   
+        //     name: "Based",
+        //     description:"Getting the " +
+        //         "information based on the address stored in the base register, so we'll have to do some " +
+        //         "calculation by adding the value that we have in the instruction to the address found in the " +
+        //         "base register to get the physical address of the data, it is used mostly to retrieve data from " +
+        //         "arrays based on the first element of the array and it requires 1 memory access."
+        // },
+        // {
+            
+        //     name: "Based Indexed",
+        //     description:"hello"
+        // },
+        // {  
+        //     name:"Shift on 8 bits",
+        //     description:"hello"
+        // },
+        // {
+            
+        //     name:"Shift on 16 bits",
+        //     description:"hello"
+        // }
+        // ];
+
+        // const promises = data.map(async o => {
+        //     await prisma.addressing_modes.update({
+        //         where:{
+        //             name: o.name,
+        //         },
+        //         data: {
+        //             description: o.description,
+        //         }
+        //     })
+        // })
+
+        // await Promise.all(promises)
+
+
+        const components = [
+            {
+                name: "Instruction Pointer",
+                description: 'desc',
+                category: 'Memory Unit',
+                imagepath: "/assets/images/calm/components/IP.svg",
+            },
+            {
+                name: "Central Memory",
+                description: 'desc',
+                category: 'Memory Unit',
+                imagepath: "/assets/images/calm/components/CmPic.svg",
+                imageHeight: 65,
+            },
+            {
+                name: "Memory Address Register",
+                description: 'desc',
+                category: 'Memory Unit',
+                imagepath: "/assets/images/calm/components/MarPic.svg",
+                imageHeight: 60,
+            },
+            {
+                name: "Memory Data Register",
+                description: 'desc',
+                category: 'Memory Unit',
+                imagepath: "/assets/images/calm/components/MdrPic.svg",
+            },
+            {
+                name: "Data & address buses",
+                description: 'desc',
+                category: 'Memory Unit',
+                imagepath: "/assets/images/calm/components/busPic.svg",
+                imageHeight: 90,
+            },
+            {
+                name: "Instruction Reception Unit",
+                description: 'desc',
+                category: 'Command Unit',
+                imagepath: "/assets/images/calm/components/IRU.svg",
+            },
+            {
+                name: "Sequencer",
+                description: 'desc',
+                category: 'Command Unit',
+                imagepath: "/assets/images/calm/components/sequencerPic.svg",
+            },
+            {
+                name: "ALU",
+                description: 'desc',
+                category: 'Processing Unit',
+                imagepath: "/assets/images/calm/components/AluPic.svg",
+            },
+            {
+                name: "Registers",
+                description: 'desc',
+                category: 'Processing Unit',
+                imagepath: "/assets/images/calm/components/registersPic.svg",
+            },
+            {
+                name: "Flag Register",
+                description: 'desc',
+                category: 'Processing Unit',
+                imagepath: "/assets/images/calm/components/flagsPic.svg",
+            },
+            {
+                name: "Buffer",
+                description: 'desc',
+                category: 'I/O Unit',
+                imagepath: "/assets/images/calm/components/IOBuffer.svg",
+                imageHeight: 60,
+            },
+            {
+                name: "IO Controller",
+                description: 'desc',
+                category: 'I/O Unit',
+                imagepath: "/assets/images/calm/components/IOController.svg",
+                imageHeight: 60,
+            },
+        ]
+
+        const result = await prisma.components.createMany({
+            data: components,
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "success",
+            data: components,
+        })
     } catch (error) {
         res.status(404).json({
             success: false,
@@ -137,3 +327,4 @@ module.exports.get_test = async(req, res)=>{
         })
     }
 }
+*/
