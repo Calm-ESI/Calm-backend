@@ -32,6 +32,8 @@ module.exports.get_component = async (req, res) =>{
             }
         })
 
+        if(!component) throw new Error("Record not found");
+
         res.status(301).json({
             success: true,
             message: "Component successfully fetched",
@@ -109,6 +111,10 @@ module.exports.edit_component = async (req, res) => {
             data: newComponent,
         })
     } catch (error) {
+        
+        if(error.code = "P2025"){
+            error.message = "Record to delete not found";
+        }
 
         res.status(400).json({
             success: false,
@@ -136,6 +142,9 @@ module.exports.delete_component = async (req, res) => {
             data: component,
         })
     } catch (error) {
+        if(error.code = "P2025"){
+            error.message = "Record to delete not found";
+        }
 
         res.status(400).json({
             success: false,

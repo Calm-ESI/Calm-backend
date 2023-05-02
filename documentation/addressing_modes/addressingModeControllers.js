@@ -106,6 +106,9 @@ module.exports.edit_addressing_mode = async (req, res) => {
             data: newAddressingMode,
         })
     } catch (error) {
+        if(error.code = "P2025"){
+            error.message = "Record to edit not found";
+        }
 
         res.status(400).json({
             success: false,
@@ -133,6 +136,9 @@ module.exports.delete_addressing_mode = async (req, res) => {
             data: addressingMode,
         })
     } catch (error) {
+        if(error.code = "P2025"){
+            error.message = "Record to delete not found";
+        }
 
         res.status(400).json({
             success: false,

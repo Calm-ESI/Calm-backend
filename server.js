@@ -22,8 +22,6 @@ let corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-
-
 app.get('/', (req, res) => {
     res.send("Welcome to the Calm platform!");
 });

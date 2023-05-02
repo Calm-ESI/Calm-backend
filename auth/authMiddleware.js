@@ -5,7 +5,9 @@ module.exports = (req, res, next) => {
     const jwtToken = req.cookies.jwt;
     
     //check if the token is there
-    if(!jwtToken) res.redirect('/login');
+    if(!jwtToken) {
+        res.redirect('/login');
+    }
     else{
 
         //The token is there, check if it's valid

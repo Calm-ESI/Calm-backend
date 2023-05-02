@@ -12,6 +12,7 @@ model calm_users {
   email    String  @unique @db.VarChar(255)
   password String  @db.VarChar(255)
   score    Int     @default(0)
+  confirmed Boolean @default(false)
   codes    codes[]
 }
 
