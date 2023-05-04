@@ -22,6 +22,20 @@ let corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
+// app.post('/code/test', (req, res) => {
+//     try {
+//         const {code} = req.body;
+//         console.log(code.split(/\n/));
+//         res.status(200).json({
+//             code: code,
+//         })
+//     } catch (error) {
+//         res.status(400).json({
+//             message: "Error: " + error.message,
+//         })
+//     }
+// })
+
 app.get('/', (req, res) => {
     res.send("Welcome to the Calm platform!");
 });

@@ -1,3 +1,4 @@
+const { PrismaClientInitializationError } = require('@prisma/client/runtime');
 const prisma = require('../../prisma/prismaClient');
 
 module.exports.get_all_codes = async (req, res) =>{
@@ -17,6 +18,18 @@ module.exports.get_all_codes = async (req, res) =>{
         })
 
     } catch (error) {
+        console.log("hello-0")
+        console.log(error)
+        console.log("hello1")
+        if(error instanceof PrismaClientInitializationError){
+            console.log("Database Connection Error: ");
+        }
+        console.log("hello")
+        if(error.code === 'P1001'){
+            console.log("Database Connection Error cought")
+        }
+        console.log("hi")
+
         res.status(400).json({
             success: false,
             message: "Couldn't get all codes: " + error.message,
@@ -61,14 +74,15 @@ module.exports.get_code = async (req, res) =>{
 module.exports.add_code = async (req, res) => {
     try {
         const user_id = Number(req.params.userId);
-        const content = req.body.content;
+        const content = req.body.code;
+        const name = req.body.name;
 
         console.log(user_id, content);
-        if(!content) throw new Error("No content provided");
+        if(!content) throw new Error("No code provided");
 
         const code = await prisma.codes.create({
             data: {
-                user_id, content,
+                user_id, name, content: content,
             }
         })
 
@@ -78,7 +92,13 @@ module.exports.add_code = async (req, res) => {
             data: code,
         })
     } catch (error) {
-
+        console.log(error)
+        if(error instanceof PrismaClientInitializationError){
+            console.log("Database Connection Error: ");
+        }
+        if(error.code === 'P1001'){
+            console.log("Database Connection Error cought")
+        }
         res.status(400).json({
             success: false,
             message: "Couldn't add the new code: " + error.message,
@@ -89,8 +109,9 @@ module.exports.add_code = async (req, res) => {
 
 module.exports.edit_code = async (req, res) => {
     try{
-        const id = Number(req.query.id);
-        const content = req.body.content;
+        const user_id = Number(req.params.userId);
+        const id = Number(req.body.id);
+        const content = req.body.code;
 
         if(!id) throw new Error("No id provided");
 
@@ -99,6 +120,8 @@ module.exports.edit_code = async (req, res) => {
                 id,
             }
         })
+
+        if(code.user_id !== user_id) throw new Error("Unauthorized operation");
 
         const newcode = await prisma.codes.update({
             where: {
