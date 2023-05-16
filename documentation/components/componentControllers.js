@@ -101,7 +101,7 @@ module.exports.edit_component = async (req, res) => {
                 description: description || component.description, 
                 category: category || component.category,
                 imagepath: imagepath || component.imagepath,
-                imageHeight: imageHeight || component.imageheight,
+                imageHeight: imageHeight || component.imageHeight,
             }
         })
 

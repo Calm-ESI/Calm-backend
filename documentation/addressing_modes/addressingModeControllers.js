@@ -79,7 +79,7 @@ module.exports.add_addressing_mode = async (req, res) => {
 module.exports.edit_addressing_mode = async (req, res) => {
     try{
         const name = req.query.name;
-        const {description, imagepath} = req.body;
+        const {name: newName, description, imagepath} = req.body;
 
         if(!name) throw new Error("No name provided");
 
@@ -94,7 +94,7 @@ module.exports.edit_addressing_mode = async (req, res) => {
                 name,
             },
             data: {
-                name: name || addressingMode.name,
+                name: newName || addressingMode.name,
                 description: description || addressingMode.description,
                 imagepath: imagepath || addressingMode.imagepath,
             }

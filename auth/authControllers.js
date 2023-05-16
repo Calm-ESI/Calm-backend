@@ -30,7 +30,6 @@ module.exports.post_register = async (req, res) => {
         //encrypt the password before creating the account using bcrypt
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
-
         
         //saving the data into the database
         const user = await prisma.calm_users.create({
@@ -45,8 +44,8 @@ module.exports.post_register = async (req, res) => {
                 console.log(err);
                 throw new Error("Login token creation failed");
             }
+            
             const confirmationURL = `${process.env.API_URL}/confirmation/${emailToken}`;
-    
             
             emailTransporter.sendMail({
                 from: process.env.CALM_EMAIL ,

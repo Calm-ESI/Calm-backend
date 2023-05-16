@@ -18,17 +18,14 @@ module.exports.get_all_codes = async (req, res) =>{
         })
 
     } catch (error) {
-        console.log("hello-0")
         console.log(error)
-        console.log("hello1")
         if(error instanceof PrismaClientInitializationError){
             console.log("Database Connection Error: ");
         }
-        console.log("hello")
+
         if(error.code === 'P1001'){
             console.log("Database Connection Error cought")
         }
-        console.log("hi")
 
         res.status(400).json({
             success: false,
@@ -77,7 +74,6 @@ module.exports.add_code = async (req, res) => {
         const content = req.body.code;
         const name = req.body.name;
 
-        console.log(user_id, content);
         if(!content) throw new Error("No code provided");
 
         const code = await prisma.codes.create({

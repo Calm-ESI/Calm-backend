@@ -16,5 +16,5 @@ router.post('/reset-password/request/:userId', authController.request_reset_pass
 router.post('/reset-password/:token', authController.reset_password);
 router.get('/confirmation/:emailToken', authController.confirm_email);
 router.post('/logout', authController.post_logout);
-// router.get('/test', authController.get_test);
+
 module.exports = router;

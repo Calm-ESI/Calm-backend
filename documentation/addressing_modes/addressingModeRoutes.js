@@ -8,5 +8,4 @@ router.post('/add', addressingModeControllers.add_addressing_mode);
 router.put('/edit', addressingModeControllers.edit_addressing_mode);
 router.delete('/delete', addressingModeControllers.delete_addressing_mode);
 
-
 module.exports = router;
